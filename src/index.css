@@ -143,6 +143,11 @@ All colors MUST be HSL.
   50% { box-shadow: 0 0 10px hsl(var(--golden)), 0 0 20px hsl(var(--golden)), 0 0 30px hsl(var(--golden)); }
 }
 
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
 /* Utility classes */
 .star {
   position: absolute;
@@ -164,4 +169,16 @@ All colors MUST be HSL.
 .progress-fill {
   animation: progressFill 2s ease-out forwards;
   animation-delay: 0.5s;
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }

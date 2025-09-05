@@ -20,7 +20,7 @@ const Navbar = () => {
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: BookOpen },
     { name: 'Languages', path: '/languages', icon: Code },
-    { name: 'Roadmaps', path: '/roadmaps', icon: MapPin },
+    { name: 'Roadmaps', path: '/roadmaps/create', icon: MapPin },
     { name: 'Leaderboard', path: '/leaderboard', icon: Award },
     { name: 'Pricing', path: '/pricing', icon: CreditCard },
   ];

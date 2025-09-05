@@ -16,9 +16,9 @@ const Index = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-center space-x-3 mb-6">
               <Code className="w-16 h-16 text-golden animate-pulse" />
-              <div className="text-6xl md:text-8xl text-golden font-bold animate-glow">
+              {/* <div className="text-6xl md:text-8xl text-golden font-bold animate-glow">
                 ॐ
-              </div>
+              </div> */}
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold text-golden devanagari mb-4">

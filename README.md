@@ -24,14 +24,6 @@ This repository contains a simple "Hello, World!" program, serving as a basic ex
    cd HelloWorld
    ```
 
-### Usage
-- Open the `HelloWorld` file in your preferred editor or IDE.
-- Follow the instructions in the source code comments (if any) to run the program.
-- For example, if this is a Python-based "Hello, World!" program, you can run:
-   ```bash
-   python hello.py
-   ```
-
 ## Contributing
 Contributions are welcome! If you'd like to contribute to this project:
 1. Fork the repository.

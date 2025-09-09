@@ -1,7 +1,7 @@
 # HelloWorld
 
 ## Overview
-This repository contains a simple "Hello, World!" program, serving as a basic example for beginners to understand the structure and setup of a project on GitHub. It demonstrates a minimal setup for a software project and can be used as a starting point for learning version control with Git and GitHub.
+This repository contains a simple "Hello World!" program, serving as a basic example for beginners to understand the structure and setup of a project on GitHub. It demonstrates a minimal setup for a software project and can be used as a starting point for learning version control with Git and GitHub.
 
 ## Features
 - A basic "Hello, World!" implementation

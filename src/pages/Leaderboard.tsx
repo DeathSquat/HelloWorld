@@ -101,7 +101,7 @@ const Leaderboard = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
+          <h1 className="text-3xl font-bold text-foreground mb-2 flex flex-wrap items-center gap-2">
             <Trophy className="w-8 h-8 text-golden" />
             Leaderboard
           </h1>
@@ -115,12 +115,12 @@ const Leaderboard = () => {
           <div className="lg:col-span-3">
             <Card className="bg-card/50 backdrop-blur-sm border-border/50">
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
                     <CardTitle className="text-xl text-foreground">Global Rankings</CardTitle>
                     <CardDescription>Top performers this week</CardDescription>
                   </div>
-                  <Tabs defaultValue="weekly" className="w-auto">
+                  <Tabs defaultValue="weekly" className="w-full sm:w-auto">
                     <TabsList className="grid w-full grid-cols-3">
                       <TabsTrigger value="weekly">Weekly</TabsTrigger>
                       <TabsTrigger value="monthly">Monthly</TabsTrigger>
@@ -132,15 +132,15 @@ const Leaderboard = () => {
               <CardContent>
                 <div className="space-y-1">
                   {leaderboardData.weekly.map((user) => (
-                    <div 
+                    <div
                       key={user.rank}
-                      className={`flex items-center justify-between p-4 rounded-lg transition-all duration-200 hover:bg-accent/20 ${
-                        user.name === 'Nishchay Chaurasia' 
-                          ? 'bg-golden/5 border border-golden/20' 
+                      className={`flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-lg transition-all duration-200 hover:bg-accent/20 gap-4 sm:gap-0 ${
+                        user.name === 'Nishchay Chaurasia'
+                          ? 'bg-golden/5 border border-golden/20'
                           : 'border border-transparent hover:border-accent/30'
                       }`}
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-4 w-full">
                         {/* Rank */}
                         <div className="flex items-center justify-center min-w-[40px]">
                           {getRankIcon(user.rank)}
@@ -165,7 +165,7 @@ const Leaderboard = () => {
                                 </Badge>
                               )}
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
                               <div className="flex items-center gap-1">
                                 <Flame className="w-3 h-3 text-orange-400" />
                                 <span>{user.streak} day streak</span>
@@ -184,14 +184,14 @@ const Leaderboard = () => {
                       </div>
 
                       {/* Points and Change */}
-                      <div className="text-right">
-                        <div className="flex items-center gap-2">
+                      <div className="text-left sm:text-right w-full sm:w-auto">
+                        <div className="flex items-center gap-2 justify-start sm:justify-end">
                           <span className="text-lg font-bold text-golden">
                             {user.points.toLocaleString()}
                           </span>
                           <span className="text-sm text-muted-foreground">pts</span>
                         </div>
-                        <div className="flex items-center gap-1 justify-end">
+                        <div className="flex items-center gap-1 justify-start sm:justify-end">
                           {getChangeIcon(user.change)}
                           <span className={`text-xs ${
                             user.change.startsWith('+') ? 'text-emerald-400' :

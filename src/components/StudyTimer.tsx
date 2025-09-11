@@ -26,6 +26,21 @@ const StudyTimer = () => {
     long: { duration: 15 * 60, label: 'Long Break', icon: Coffee }
   };
 
+  const requestFullScreen = () => {
+    const element = document.documentElement;
+    if (element.requestFullscreen) {
+      element.requestFullscreen().catch(err => {
+        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      });
+    }
+  };
+
+  const exitFullScreen = () => {
+    if (document.exitFullscreen && document.fullscreenElement) {
+      document.exitFullscreen();
+    }
+  };
+
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
@@ -51,6 +66,26 @@ const StudyTimer = () => {
       if (interval) clearInterval(interval);
     };
   }, [isActive, timeLeft, isBreak, sessions]);
+
+  useEffect(() => {
+    if (isActive) {
+      requestFullScreen();
+    } else {
+      exitFullScreen();
+    }
+  }, [isActive]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement && isActive) {
+        setIsActive(false); // Pause timer if user exits fullscreen
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, [isActive]);
 
   const toggleTimer = () => {
     setIsActive(!isActive);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +12,12 @@ import {
   FileCode,
   Lightbulb
 } from 'lucide-react';
+
+declare global {
+  interface Window {
+    loadPyodide: (options?: { indexURL?: string }) => Promise<any>;
+  }
+}
 
 const CodePlayground = () => {
   const [activeLanguage, setActiveLanguage] = useState('python');
@@ -60,6 +66,33 @@ int main() {
 
   const [output, setOutput] = useState('Click "Run Code" to see output here...');
   const [isRunning, setIsRunning] = useState(false);
+  const [isPyodideLoading, setIsPyodideLoading] = useState(true);
+  const pyodideRef = useRef<any>(null);
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js';
+    script.onload = async () => {
+      try {
+        setOutput('Loading Python runtime...');
+        const pyodide = await window.loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/',
+        });
+        pyodideRef.current = pyodide;
+        setIsPyodideLoading(false);
+        setOutput('Python runtime loaded. Ready to execute code.');
+      } catch (error) {
+        console.error('Failed to load Pyodide:', error);
+        setOutput('Error loading Python runtime. Please try refreshing the page.');
+        setIsPyodideLoading(false);
+      }
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const languages = [
     { id: 'python', name: 'Python', icon: '🐍', color: 'bg-blue-500' },
@@ -70,32 +103,67 @@ int main() {
 
   const runCode = async () => {
     setIsRunning(true);
-    setOutput('Running code...');
-    
-    // Simulate code execution
-    setTimeout(() => {
-      const outputs = {
-        python: `Hello, World!
-Hello, Nishchay!
+    setOutput(`Running ${activeLanguage} code...`);
 
-Process finished with exit code 0`,
-        javascript: `Hello, World!
-Hello, Nishchay!
+    switch (activeLanguage) {
+      case 'javascript':
+        try {
+          let capturedOutput = '';
+          const originalConsoleLog = console.log;
+          console.log = (...args) => {
+            capturedOutput += args.map(arg => {
+              if (typeof arg === 'object' && arg !== null) {
+                return JSON.stringify(arg, null, 2);
+              }
+              return String(arg);
+            }).join(' ') + '\n';
+          };
+          
+          new Function(code.javascript)();
+          
+          console.log = originalConsoleLog;
+          setOutput(capturedOutput || 'Code executed successfully (no output).');
+        } catch (error: any) {
+          setOutput(`Error: ${error.message}`);
+        }
+        setIsRunning(false);
+        break;
 
-Execution completed successfully`,
-        java: `Hello, World!
-Hello, Nishchay!
+      case 'python':
+        if (isPyodideLoading || !pyodideRef.current) {
+          setOutput('Python runtime is not ready. Please wait.');
+          setIsRunning(false);
+          return;
+        }
+        try {
+          let capturedOutput = '';
+          pyodideRef.current.setStdout({ 
+            batched: (str: string) => { capturedOutput += str + '\n'; }
+          });
+          pyodideRef.current.setStderr({ 
+            batched: (str: string) => { capturedOutput += `Error: ${str}\n`; }
+          });
+          await pyodideRef.current.runPythonAsync(code.python);
+          setOutput(capturedOutput || 'Code executed successfully (no output).');
+        } catch (error: any) {
+          setOutput(`Error: ${error.message}`);
+        }
+        setIsRunning(false);
+        break;
 
-BUILD SUCCESSFUL`,
-        cpp: `Hello, World!
-Hello, Nishchay!
-
-Program executed successfully`
-      };
-      
-      setOutput(outputs[activeLanguage as keyof typeof outputs]);
-      setIsRunning(false);
-    }, 2000);
+      case 'java':
+      case 'cpp':
+        setOutput(`Live execution for ${activeLanguage === 'java' ? 'Java' : 'C++'} is not supported in this browser-based playground. A backend service is required.\n\nDisplaying simulated output:`);
+        setTimeout(() => {
+          const simulatedOutputs = {
+            java: `Hello, World!\nHello, Nishchay!`,
+            cpp: `Hello, World!\nHello, Nishchay!`
+          };
+          setOutput(prev => `${prev}\n\n${simulatedOutputs[activeLanguage as keyof typeof simulatedOutputs]}`);
+          setIsRunning(false);
+        }, 1000);
+        break;
+    }
   };
 
   const handleCodeChange = (value: string) => {
@@ -163,13 +231,18 @@ Program executed successfully`
           {/* Run Button */}
           <Button 
             onClick={runCode} 
-            disabled={isRunning}
+            disabled={isRunning || (activeLanguage === 'python' && isPyodideLoading)}
             className="w-full"
           >
             {isRunning ? (
               <>
                 <Terminal className="w-4 h-4 mr-2 animate-spin" />
                 Running...
+              </>
+            ) : activeLanguage === 'python' && isPyodideLoading ? (
+              <>
+                <Terminal className="w-4 h-4 mr-2 animate-spin" />
+                Loading Python...
               </>
             ) : (
               <>

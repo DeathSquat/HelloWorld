@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import StarField from '@/components/StarField';
-import { Code, BookOpen, MapPin, Users, ArrowRight } from 'lucide-react';
+import { Code, BookOpen, MapPin, Users, ArrowRight, LogIn } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 const Index = () => {
+  const { user } = useAuth();
   return (
     <main className="relative min-h-screen overflow-hidden">
       {/* Animated Star Background */}
@@ -58,18 +60,38 @@ const Index = () => {
           {/* Call to Action */}
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/dashboard">
-                <Button size="lg" className="bg-golden hover:bg-golden/90 text-primary-foreground px-8 py-4 text-lg">
-                  Start Learning
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-              
-              <Link to="/languages">
-                <Button size="lg" variant="outline" className="border-golden text-golden hover:bg-golden/10 px-8 py-4 text-lg">
-                  Browse Languages
-                </Button>
-              </Link>
+              {user ? (
+                <>
+                  <Link to="/dashboard">
+                    <Button size="lg" className="bg-golden hover:bg-golden/90 text-primary-foreground px-8 py-4 text-lg">
+                      Continue Learning
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </Button>
+                  </Link>
+                  
+                  <Link to="/languages">
+                    <Button size="lg" variant="outline" className="border-golden text-golden hover:bg-golden/10 px-8 py-4 text-lg">
+                      Browse Languages
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/auth">
+                    <Button size="lg" className="bg-golden hover:bg-golden/90 text-primary-foreground px-8 py-4 text-lg">
+                      Start Learning
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </Button>
+                  </Link>
+                  
+                  <Link to="/auth">
+                    <Button size="lg" variant="outline" className="border-golden text-golden hover:bg-golden/10 px-8 py-4 text-lg">
+                      <LogIn className="w-4 h-4 mr-2" />
+                      Sign In
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
             
             <p className="text-sm text-muted-foreground">

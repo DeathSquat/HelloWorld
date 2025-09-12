@@ -42,9 +42,10 @@ const CreateRoadmap = () => {
   const [isGenerating, setIsGenerating] = useState(false);
 
   const skills = [
-    'Python', 'JavaScript', 'Java', 'C++', 'C Programming', 'React', 
-    'Node.js', 'Machine Learning', 'Data Science', 'Web Development',
-    'Mobile Development', 'DevOps', 'Cybersecurity', 'UI/UX Design'
+    'Frontend Development', 'Python', 'JavaScript', 'Java', 'C++', 'C Programming', 'React', 
+    'Node.js', 'Machine Learning', 'Data Science', 'Web Development', 'Backend Development',
+    'Mobile Development', 'DevOps', 'Cybersecurity', 'UI/UX Design', 'Flutter', 'Android Development',
+    'iOS Development', 'Game Development', 'Blockchain', 'Cloud Computing'
   ];
 
   const levels = ['Absolute Beginner', 'Beginner', 'Intermediate', 'Advanced', 'Expert'];
@@ -59,127 +60,600 @@ const CreateRoadmap = () => {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 3000));
     
-    // Mock generated roadmap
-    const mockRoadmap = {
-      title: `${formData.skill} Learning Path`,
-      description: `Complete ${formData.skill} roadmap from ${formData.currentLevel} to ${formData.targetLevel} in ${formData.days} days`,
-      totalDuration: `${formData.days} days`,
-      estimatedHours: Math.floor(parseInt(formData.days) * parseFloat(formData.timePerDay)),
-      phases: [
-        {
-          id: 1,
-          title: 'Foundation',
-          duration: '7 days',
-          description: 'Build strong fundamentals',
-          resources: [
-            {
-              type: 'youtube',
-              title: `${formData.skill} Crash Course for Beginners`,
-              author: 'Programming with Mosh',
-              duration: '2h 30m',
-              url: '#',
-              completed: false
-            },
-            {
-              type: 'coursera',
-              title: `Introduction to ${formData.skill}`,
-              author: 'University of Michigan',
-              duration: '4 weeks',
-              url: '#',
-              completed: false
-            },
-            {
-              type: 'practice',
-              title: 'Basic Syntax Practice',
-              description: '50 beginner problems',
-              duration: '3 hours',
-              completed: false
-            }
-          ]
-        },
-        {
-          id: 2,
-          title: 'Core Concepts',
-          duration: '14 days',
-          description: 'Master intermediate concepts',
-          resources: [
-            {
-              type: 'youtube',
-              title: `${formData.skill} OOP Concepts`,
-              author: 'Derek Banas',
-              duration: '3h 15m',
-              url: '#',
-              completed: false
-            },
-            {
-              type: 'coursera',
-              title: `${formData.skill} Data Structures`,
-              author: 'Stanford University',
-              duration: '6 weeks',
-              url: '#',
-              completed: false
-            },
-            {
-              type: 'project',
-              title: 'Build a Calculator App',
-              description: 'Apply core concepts in a real project',
-              duration: '5 hours',
-              completed: false
-            }
-          ]
-        },
-        {
-          id: 3,
-          title: 'Advanced Topics',
-          duration: '10 days',
-          description: 'Advanced concepts and best practices',
-          resources: [
-            {
-              type: 'youtube',
-              title: `Advanced ${formData.skill} Patterns`,
-              author: 'Tech With Tim',
-              duration: '4h 45m',
-              url: '#',
-              completed: false
-            },
-            {
-              type: 'coursera',
-              title: `${formData.skill} for Software Engineering`,
-              author: 'Google',
-              duration: '8 weeks',
-              url: '#',
-              completed: false
-            }
-          ]
-        },
-        {
-          id: 4,
-          title: 'Real-World Projects',
-          duration: `${Math.max(7, parseInt(formData.days) - 31)} days`,
-          description: 'Build portfolio projects',
-          resources: [
-            {
-              type: 'project',
-              title: 'Full-Stack Web Application',
-              description: 'Build a complete application with backend and frontend',
-              duration: '20 hours',
-              completed: false
-            },
-            {
-              type: 'project',
-              title: 'API Integration Project',
-              description: 'Work with external APIs and databases',
-              duration: '10 hours',
-              completed: false
-            }
-          ]
-        }
-      ]
-    };
+    // Generate skill-specific roadmap
+    const mockRoadmap = generateSkillSpecificRoadmap(formData.skill);
     
     setGeneratedRoadmap(mockRoadmap);
     setIsGenerating(false);
     setStep(3);
+  };
+
+  const generateSkillSpecificRoadmap = (skill: string) => {
+    const baseInfo = {
+      title: `${skill} Learning Path`,
+      description: `Complete ${skill} roadmap from ${formData.currentLevel} to ${formData.targetLevel} in ${formData.days} days`,
+      totalDuration: `${formData.days} days`,
+      estimatedHours: Math.floor(parseInt(formData.days) * parseFloat(formData.timePerDay)),
+    };
+
+    switch (skill.toLowerCase()) {
+      case 'frontend development':
+        return {
+          ...baseInfo,
+          phases: [
+            {
+              id: 1,
+              title: 'HTML & CSS Fundamentals',
+              duration: '14 days',
+              description: 'Master the building blocks of web development',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'HTML Full Course - Build a Website Tutorial',
+                  author: 'freeCodeCamp',
+                  duration: '4h 32m',
+                  url: 'https://www.youtube.com/watch?v=pQN-pnXPaVg',
+                  completed: false
+                },
+                {
+                  type: 'youtube',
+                  title: 'CSS Full Course for Beginners',
+                  author: 'Dave Gray',
+                  duration: '11h 24m',
+                  url: 'https://www.youtube.com/watch?v=n4R2E7O-Ngo',
+                  completed: false
+                },
+                {
+                  type: 'coursera',
+                  title: 'Introduction to Web Development with HTML, CSS, JavaScript',
+                  author: 'Johns Hopkins University',
+                  duration: '5 weeks',
+                  url: 'https://www.coursera.org/learn/html-css-javascript-for-web-developers',
+                  completed: false
+                },
+                {
+                  type: 'practice',
+                  title: 'Build 5 Responsive Landing Pages',
+                  description: 'Create portfolio-worthy static websites',
+                  duration: '8 hours',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Personal Portfolio Website',
+                  description: 'Showcase your skills with a custom portfolio',
+                  duration: '12 hours',
+                  completed: false
+                }
+              ]
+            },
+            {
+              id: 2,
+              title: 'JavaScript & DOM Manipulation',
+              duration: '21 days',
+              description: 'Learn interactive web development',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'JavaScript Tutorial Full Course - Beginner to Pro',
+                  author: 'Programming with Mosh',
+                  duration: '6h 14m',
+                  url: 'https://www.youtube.com/watch?v=2qDywOS7VAc',
+                  completed: false
+                },
+                {
+                  type: 'youtube',
+                  title: 'Learn DOM Manipulation In 18 Minutes',
+                  author: 'Web Dev Simplified',
+                  duration: '18m',
+                  url: 'https://www.youtube.com/watch?v=y17RuWkWdn8',
+                  completed: false
+                },
+                {
+                  type: 'coursera',
+                  title: 'JavaScript for Beginners Specialization',
+                  author: 'University of California, Davis',
+                  duration: '4 courses',
+                  url: 'https://www.coursera.org/specializations/javascript-beginner',
+                  completed: false
+                },
+                {
+                  type: 'practice',
+                  title: '30 JavaScript Projects in 30 Days',
+                  description: 'Build interactive components and mini-apps',
+                  duration: '45 hours',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Interactive Todo App with Local Storage',
+                  description: 'Build a feature-rich task management app',
+                  duration: '8 hours',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Weather Dashboard with API Integration',
+                  description: 'Fetch and display real-time weather data',
+                  duration: '10 hours',
+                  completed: false
+                }
+              ]
+            },
+            {
+              id: 3,
+              title: 'Modern Frontend Frameworks',
+              duration: '28 days',
+              description: 'Master React and modern tooling',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'React Course - Beginner\'s Tutorial for React JavaScript Library',
+                  author: 'freeCodeCamp',
+                  duration: '12h',
+                  url: 'https://www.youtube.com/watch?v=bMknfKXIFA8',
+                  completed: false
+                },
+                {
+                  type: 'youtube',
+                  title: 'Next.js 13 Full Course 2023',
+                  author: 'JavaScript Mastery',
+                  duration: '4h 13m',
+                  url: 'https://www.youtube.com/watch?v=wm5gMKuwSYk',
+                  completed: false
+                },
+                {
+                  type: 'coursera',
+                  title: 'Front-End Web Development with React',
+                  author: 'The Hong Kong University of Science and Technology',
+                  duration: '4 weeks',
+                  url: 'https://www.coursera.org/learn/front-end-react',
+                  completed: false
+                },
+                {
+                  type: 'practice',
+                  title: 'Build 10 React Components from Scratch',
+                  description: 'Create reusable UI components',
+                  duration: '20 hours',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'E-commerce Store with React & Context API',
+                  description: 'Full-featured shopping cart application',
+                  duration: '25 hours',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Social Media Dashboard',
+                  description: 'React app with authentication and real-time updates',
+                  duration: '30 hours',
+                  completed: false
+                }
+              ]
+            },
+            {
+              id: 4,
+              title: 'Advanced Frontend & Deployment',
+              duration: `${Math.max(7, parseInt(formData.days) - 63)} days`,
+              description: 'Optimize performance and deploy to production',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'Advanced React Patterns and Performance',
+                  author: 'Jack Herrington',
+                  duration: '2h 45m',
+                  url: 'https://www.youtube.com/watch?v=HQfCjJnf8MI',
+                  completed: false
+                },
+                {
+                  type: 'coursera',
+                  title: 'Advanced React',
+                  author: 'Meta',
+                  duration: '7 weeks',
+                  url: 'https://www.coursera.org/learn/advanced-react',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Full-Stack MERN Application',
+                  description: 'Complete web application with MongoDB, Express, React, Node.js',
+                  duration: '40 hours',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Progressive Web App (PWA)',
+                  description: 'Mobile-first web app with offline capabilities',
+                  duration: '20 hours',
+                  completed: false
+                }
+              ]
+            }
+          ]
+        };
+
+      case 'python':
+        return {
+          ...baseInfo,
+          phases: [
+            {
+              id: 1,
+              title: 'Python Fundamentals',
+              duration: '10 days',
+              description: 'Learn Python syntax and core concepts',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'Python Tutorial - Python Full Course for Beginners',
+                  author: 'Programming with Mosh',
+                  duration: '6h 14m',
+                  url: 'https://www.youtube.com/watch?v=_uQrJ0TkZlc',
+                  completed: false
+                },
+                {
+                  type: 'coursera',
+                  title: 'Python for Everybody Specialization',
+                  author: 'University of Michigan',
+                  duration: '5 courses',
+                  url: 'https://www.coursera.org/specializations/python',
+                  completed: false
+                },
+                {
+                  type: 'practice',
+                  title: '100 Python Beginner Exercises',
+                  description: 'Master basic Python concepts',
+                  duration: '15 hours',
+                  completed: false
+                }
+              ]
+            },
+            {
+              id: 2,
+              title: 'Data Structures & Algorithms',
+              duration: '14 days',
+              description: 'Master Python data structures and problem solving',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'Data Structures and Algorithms in Python',
+                  author: 'Tech With Tim',
+                  duration: '13h 35m',
+                  url: 'https://www.youtube.com/watch?v=pkYVOmU3MgA',
+                  completed: false
+                },
+                {
+                  type: 'coursera',
+                  title: 'Algorithms Specialization',
+                  author: 'Stanford University',
+                  duration: '4 courses',
+                  url: 'https://www.coursera.org/specializations/algorithms',
+                  completed: false
+                },
+                {
+                  type: 'practice',
+                  title: 'LeetCode Python Problems',
+                  description: 'Solve 50 coding interview questions',
+                  duration: '25 hours',
+                  completed: false
+                }
+              ]
+            },
+            {
+              id: 3,
+              title: 'Web Development with Python',
+              duration: '18 days',
+              description: 'Build web applications with Django/Flask',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'Django Tutorial for Beginners',
+                  author: 'Programming with Mosh',
+                  duration: '8h 38m',
+                  url: 'https://www.youtube.com/watch?v=rHux0gMZ3Eg',
+                  completed: false
+                },
+                {
+                  type: 'coursera',
+                  title: 'Django for Everybody Specialization',
+                  author: 'University of Michigan',
+                  duration: '4 courses',
+                  url: 'https://www.coursera.org/specializations/django',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Blog Application with Django',
+                  description: 'Full-featured blog with user authentication',
+                  duration: '20 hours',
+                  completed: false
+                }
+              ]
+            },
+            {
+              id: 4,
+              title: 'Advanced Python & Deployment',
+              duration: `${Math.max(8, parseInt(formData.days) - 42)} days`,
+              description: 'Master advanced concepts and deployment',
+              resources: [
+                {
+                  type: 'project',
+                  title: 'RESTful API with FastAPI',
+                  description: 'Build scalable APIs with modern Python',
+                  duration: '15 hours',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Machine Learning Web App',
+                  description: 'Deploy ML models with Streamlit',
+                  duration: '12 hours',
+                  completed: false
+                }
+              ]
+            }
+          ]
+        };
+
+      case 'javascript':
+        return {
+          ...baseInfo,
+          phases: [
+            {
+              id: 1,
+              title: 'JavaScript Fundamentals',
+              duration: '12 days',
+              description: 'Master core JavaScript concepts',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'JavaScript Crash Course for Beginners',
+                  author: 'Brad Traversy',
+                  duration: '1h 40m',
+                  url: 'https://www.youtube.com/watch?v=hdI2bqOjy3c',
+                  completed: false
+                },
+                {
+                  type: 'coursera',
+                  title: 'JavaScript, jQuery, and JSON',
+                  author: 'University of Michigan',
+                  duration: '4 weeks',
+                  url: 'https://www.coursera.org/learn/javascript-jquery-json',
+                  completed: false
+                },
+                {
+                  type: 'practice',
+                  title: 'JavaScript30 Challenge',
+                  description: '30 vanilla JavaScript projects in 30 days',
+                  duration: '30 hours',
+                  completed: false
+                }
+              ]
+            },
+            {
+              id: 2,
+              title: 'Modern JavaScript (ES6+)',
+              duration: '15 days',
+              description: 'Learn modern JavaScript features and async programming',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'Modern JavaScript ES6, ES7 & ES8',
+                  author: 'Brad Traversy',
+                  duration: '2h 17m',
+                  url: 'https://www.youtube.com/watch?v=nZ1DMMsyVyI',
+                  completed: false
+                },
+                {
+                  type: 'practice',
+                  title: 'Async JavaScript Projects',
+                  description: 'Master Promises, async/await, and fetch API',
+                  duration: '20 hours',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Movie Database App',
+                  description: 'Build an app using external APIs',
+                  duration: '15 hours',
+                  completed: false
+                }
+              ]
+            }
+          ]
+        };
+
+      case 'java':
+        return {
+          ...baseInfo,
+          phases: [
+            {
+              id: 1,
+              title: 'Java Fundamentals',
+              duration: '14 days',
+              description: 'Learn Java syntax and OOP concepts',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'Java Tutorial for Beginners',
+                  author: 'Programming with Mosh',
+                  duration: '2h 18m',
+                  url: 'https://www.youtube.com/watch?v=eIrMbAQSU34',
+                  completed: false
+                },
+                {
+                  type: 'coursera',
+                  title: 'Java Programming: Solving Problems with Software',
+                  author: 'Duke University',
+                  duration: '4 weeks',
+                  url: 'https://www.coursera.org/learn/java-programming',
+                  completed: false
+                },
+                {
+                  type: 'practice',
+                  title: 'Java Coding Exercises',
+                  description: 'Practice OOP and data structures',
+                  duration: '25 hours',
+                  completed: false
+                }
+              ]
+            },
+            {
+              id: 2,
+              title: 'Spring Framework',
+              duration: '20 days',
+              description: 'Build enterprise Java applications',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: 'Spring Boot Tutorial for Beginners',
+                  author: 'Java Brains',
+                  duration: '6h 30m',
+                  url: 'https://www.youtube.com/watch?v=vtPkZShrvXQ',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'REST API with Spring Boot',
+                  description: 'Build scalable backend services',
+                  duration: '25 hours',
+                  completed: false
+                }
+              ]
+            }
+          ]
+        };
+
+      case 'machine learning':
+        return {
+          ...baseInfo,
+          phases: [
+            {
+              id: 1,
+              title: 'ML Fundamentals & Mathematics',
+              duration: '21 days',
+              description: 'Statistics, linear algebra, and ML basics',
+              resources: [
+                {
+                  type: 'coursera',
+                  title: 'Machine Learning Specialization',
+                  author: 'Stanford University & DeepLearning.AI',
+                  duration: '3 courses',
+                  url: 'https://www.coursera.org/specializations/machine-learning-introduction',
+                  completed: false
+                },
+                {
+                  type: 'youtube',
+                  title: 'StatQuest: Machine Learning',
+                  author: 'Josh Starmer',
+                  duration: '10h+',
+                  url: 'https://www.youtube.com/playlist?list=PLblh5JKOoLUICTaGLRoHQDuF_7q2GfuJF',
+                  completed: false
+                },
+                {
+                  type: 'practice',
+                  title: 'Kaggle Learn Micro-Courses',
+                  description: 'Complete Python, Pandas, and ML courses',
+                  duration: '20 hours',
+                  completed: false
+                }
+              ]
+            },
+            {
+              id: 2,
+              title: 'Practical ML Projects',
+              duration: '28 days',
+              description: 'Build and deploy ML models',
+              resources: [
+                {
+                  type: 'project',
+                  title: 'House Price Prediction',
+                  description: 'Regression project with scikit-learn',
+                  duration: '15 hours',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Customer Segmentation',
+                  description: 'Unsupervised learning with clustering',
+                  duration: '12 hours',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Image Classification with Deep Learning',
+                  description: 'CNN project with TensorFlow',
+                  duration: '20 hours',
+                  completed: false
+                }
+              ]
+            }
+          ]
+        };
+
+      default:
+        // Generic roadmap for other skills
+        return {
+          ...baseInfo,
+          phases: [
+            {
+              id: 1,
+              title: 'Foundation',
+              duration: '7 days',
+              description: 'Build strong fundamentals',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: `${skill} Crash Course for Beginners`,
+                  author: 'Programming with Mosh',
+                  duration: '2h 30m',
+                  url: '#',
+                  completed: false
+                },
+                {
+                  type: 'coursera',
+                  title: `Introduction to ${skill}`,
+                  author: 'University of Michigan',
+                  duration: '4 weeks',
+                  url: '#',
+                  completed: false
+                },
+                {
+                  type: 'practice',
+                  title: 'Basic Syntax Practice',
+                  description: '50 beginner problems',
+                  duration: '3 hours',
+                  completed: false
+                }
+              ]
+            },
+            {
+              id: 2,
+              title: 'Core Concepts',
+              duration: '14 days',
+              description: 'Master intermediate concepts',
+              resources: [
+                {
+                  type: 'youtube',
+                  title: `${skill} OOP Concepts`,
+                  author: 'Derek Banas',
+                  duration: '3h 15m',
+                  url: '#',
+                  completed: false
+                },
+                {
+                  type: 'project',
+                  title: 'Build a Calculator App',
+                  description: 'Apply core concepts in a real project',
+                  duration: '5 hours',
+                  completed: false
+                }
+              ]
+            }
+          ]
+        };
+    }
   };
 
   const getResourceIcon = (type: string) => {

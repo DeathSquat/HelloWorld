@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { 
   Code, 
@@ -10,12 +10,28 @@ import {
   MapPin, 
   Award, 
   CreditCard,
-  LogOut
+  LogOut,
+  Home
 } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator
+} from '@/components/ui/dropdown-menu';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: BookOpen },
@@ -65,14 +81,25 @@ const Navbar = () => {
               <span className="text-sm font-medium text-golden">2,450 pts</span>
             </div>
             
-            <div className="flex items-center space-x-2">
-              <User className="w-8 h-8 p-1 rounded-full bg-accent text-accent-foreground" />
-              <span className="text-sm font-medium">Nishchay Chaurasia</span>
-            </div>
-
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-destructive">
-              <LogOut className="w-4 h-4" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  <span className="max-w-24 truncate">{user?.email}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                  <Home className="w-4 h-4 mr-2" />
+                  Dashboard
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut}>
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           {/* Mobile menu button */}
@@ -115,13 +142,22 @@ const Navbar = () => {
                 <div className="flex items-center justify-between px-3 py-2">
                   <div className="flex items-center space-x-2">
                     <User className="w-8 h-8 p-1 rounded-full bg-accent text-accent-foreground" />
-                    <span className="font-medium">Nishchay Chaurasia</span>
+                    <span className="font-medium truncate max-w-32">{user?.email}</span>
                   </div>
                   <div className="flex items-center space-x-2 text-golden text-sm">
                     <Award className="w-4 h-4" />
                     <span>2,450 pts</span>
                   </div>
                 </div>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleSignOut}
+                  className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-400/10 mt-2"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </Button>
               </div>
             </div>
           </div>

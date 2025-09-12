@@ -14,6 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
+      "Hello-World Login": {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          current_level: string | null
+          daily_goal_hours: number | null
+          email: string | null
+          experience_points: number | null
+          full_name: string | null
+          id: string
+          is_active: boolean | null
+          joined_at: string | null
+          last_activity_at: string | null
+          learning_goals: string[] | null
+          learning_streak: number | null
+          preferred_languages: string[] | null
+          problems_solved: number | null
+          role: string | null
+          timezone: string | null
+          total_study_hours: number | null
+          updated_at: string | null
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          current_level?: string | null
+          daily_goal_hours?: number | null
+          email?: string | null
+          experience_points?: number | null
+          full_name?: string | null
+          id?: string
+          is_active?: boolean | null
+          joined_at?: string | null
+          last_activity_at?: string | null
+          learning_goals?: string[] | null
+          learning_streak?: number | null
+          preferred_languages?: string[] | null
+          problems_solved?: number | null
+          role?: string | null
+          timezone?: string | null
+          total_study_hours?: number | null
+          updated_at?: string | null
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          current_level?: string | null
+          daily_goal_hours?: number | null
+          email?: string | null
+          experience_points?: number | null
+          full_name?: string | null
+          id?: string
+          is_active?: boolean | null
+          joined_at?: string | null
+          last_activity_at?: string | null
+          learning_goals?: string[] | null
+          learning_streak?: number | null
+          preferred_languages?: string[] | null
+          problems_solved?: number | null
+          role?: string | null
+          timezone?: string | null
+          total_study_hours?: number | null
+          updated_at?: string | null
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
       "Room-Buddies Login": {
         Row: {
           email: string | null

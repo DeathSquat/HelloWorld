@@ -85,7 +85,7 @@ const Navbar = () => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="flex items-center gap-2">
                   <User className="w-4 h-4" />
-                  <span className="max-w-24 truncate">{user?.email}</span>
+                  <span className="max-w-24 truncate">{user?.user_metadata?.full_name || user?.email}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -142,7 +142,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between px-3 py-2">
                   <div className="flex items-center space-x-2">
                     <User className="w-8 h-8 p-1 rounded-full bg-accent text-accent-foreground" />
-                    <span className="font-medium truncate max-w-32">{user?.email}</span>
+                    <span className="font-medium truncate max-w-32">{user?.user_metadata?.full_name || user?.email}</span>
                   </div>
                   <div className="flex items-center space-x-2 text-golden text-sm">
                     <Award className="w-4 h-4" />

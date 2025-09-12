@@ -17,9 +17,15 @@ import {
   Award,
   Zap,
   Users,
-  BarChart3
+  BarChart3,
+  Brain,
+  Map,
+  Activity,
+  CheckCircle,
+  Flame
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import StudyTimer from '@/components/StudyTimer';
 import CodePlayground from '@/components/CodePlayground';
 import ProgressAnalytics from '@/components/ProgressAnalytics';
@@ -28,38 +34,62 @@ import QuickSearch from '@/components/QuickSearch';
 import DailyChallenges from '@/components/DailyChallenges';
 import AchievementSystem from '@/components/AchievementSystem';
 import SocialFeatures from '@/components/SocialFeatures';
+import DetailedProgress from '@/components/DetailedProgress';
+import LearningPath from '@/components/LearningPath';
 
 const Dashboard = () => {
+  const { user } = useAuth();
   const [currentStreak, setCurrentStreak] = useState(7);
+  const userName = user?.user_metadata?.full_name?.split(' ')[0] || 'Developer';
 
   const learningStats = [
     {
-      title: 'Total Points',
-      value: '2,450',
+      title: 'Total XP',
+      value: '3,750',
       icon: Trophy,
       color: 'text-golden',
-      change: '+180 this week'
+      change: '+285 this week',
+      bg: 'bg-golden/10'
     },
     {
       title: 'Current Streak',
       value: `${currentStreak} days`,
-      icon: Target,
-      color: 'text-emerald-400',
-      change: 'Keep it up!'
+      icon: Flame,
+      color: 'text-orange-400',
+      change: 'Keep it up!',
+      bg: 'bg-orange-400/10'
     },
     {
-      title: 'Courses Completed',
-      value: '12',
-      icon: BookOpen,
-      color: 'text-blue-400',
-      change: '3 this month'
-    },
-    {
-      title: 'Study Time',
-      value: '45h',
-      icon: Clock,
+      title: 'Skills Mastered',
+      value: '23',
+      icon: Brain,
       color: 'text-purple-400',
-      change: 'This month'
+      change: '+4 this month',
+      bg: 'bg-purple-400/10'
+    },
+    {
+      title: 'Hours Coded',
+      value: '127h',
+      icon: Clock,
+      color: 'text-blue-400',
+      change: '+12h this week',
+      bg: 'bg-blue-400/10'
+    },
+    {
+      title: 'Problems Solved',
+      value: '342',
+      icon: CheckCircle,
+      color: 'text-emerald-400',
+      change: '+28 this week',
+      bg: 'bg-emerald-400/10'
+    },
+    {
+      title: 'Code Reviews',
+      value: '89',
+      icon: Code,
+      color: 'text-cyan-400',
+      change: '+7 this week',
+      bg: 'bg-cyan-400/10'
     }
   ];
 
@@ -113,7 +143,7 @@ const Dashboard = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
-                Welcome back, <span className="text-golden">Nishchay! 👋</span>
+                Welcome back, <span className="text-golden">{userName}! 👋</span>
               </h1>
               <p className="text-muted-foreground">
                 Ready to continue your coding journey? You're doing amazing! 
@@ -125,20 +155,22 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+        {/* Enhanced Stats Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-6 sm:mb-8">
           {learningStats.map((stat, index) => {
             const Icon = stat.icon;
             return (
-              <Card key={index} className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-accent/50 transition-colors">
-                <CardContent className="p-3 sm:p-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                    <div className="flex-1">
-                      <p className="text-xs sm:text-sm text-muted-foreground">{stat.title}</p>
-                      <p className={`text-lg sm:text-2xl font-bold ${stat.color}`}>{stat.value}</p>
-                      <p className="text-xs text-muted-foreground mt-1 hidden sm:block">{stat.change}</p>
+              <Card key={index} className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-accent/50 transition-all duration-300 hover-scale animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
+                <CardContent className="p-3 sm:p-4">
+                  <div className="text-center space-y-2">
+                    <div className={`w-10 h-10 rounded-full ${stat.bg} flex items-center justify-center mx-auto`}>
+                      <Icon className={`w-5 h-5 ${stat.color}`} />
                     </div>
-                    <Icon className={`w-6 h-6 sm:w-8 sm:h-8 ${stat.color} self-end sm:self-auto`} />
+                    <div>
+                      <p className="text-xs text-muted-foreground">{stat.title}</p>
+                      <p className={`text-lg font-bold ${stat.color}`}>{stat.value}</p>
+                      <p className="text-xs text-emerald-400 hidden sm:block">{stat.change}</p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -146,12 +178,20 @@ const Dashboard = () => {
           })}
         </div>
 
-        {/* Enhanced Dashboard with Tabs */}
+        {/* Enhanced Dashboard with More Tabs */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 lg:w-fit mb-8">
+          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-8 lg:w-fit mb-8">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4" />
               <span className="hidden sm:inline">Overview</span>
+            </TabsTrigger>
+            <TabsTrigger value="progress" className="flex items-center gap-2">
+              <Activity className="w-4 h-4" />
+              <span className="hidden sm:inline">Progress</span>
+            </TabsTrigger>
+            <TabsTrigger value="path" className="flex items-center gap-2">
+              <Map className="w-4 h-4" />
+              <span className="hidden sm:inline">Learning Path</span>
             </TabsTrigger>
             <TabsTrigger value="challenges" className="flex items-center gap-2">
               <Zap className="w-4 h-4" />
@@ -253,6 +293,14 @@ const Dashboard = () => {
                 </Card>
               </div>
             </div>
+          </TabsContent>
+
+          <TabsContent value="progress">
+            <DetailedProgress />
+          </TabsContent>
+
+          <TabsContent value="path">
+            <LearningPath />
           </TabsContent>
 
           <TabsContent value="challenges">

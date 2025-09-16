@@ -18,6 +18,7 @@ import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import DivisionSelection from "./pages/DivisionSelection";
+
 // Academic Section Imports
 import AcademicDashboard from "./sections/academic/pages/AcademicDashboard";
 import AcademicLearning from "./sections/academic/pages/AcademicLearning";

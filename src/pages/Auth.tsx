@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
+import { createUserProfile, getUserProfile, logRegistrationError } from '@/lib/userProfile';
 import { LogIn, UserPlus, Code, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -36,24 +37,56 @@ const Auth = () => {
     setError('');
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/`,
           data: {
             full_name: fullName,
+            username: email.split('@')[0],
           }
         }
       });
 
-      if (error) throw error;
+      if (error) {
+        logRegistrationError(error, email);
+        if (error.message.includes('Database error') || error.message.includes('trigger')) {
+          throw new Error('Registration temporarily unavailable. Please try again in a moment.');
+        }
+        throw error;
+      }
+
+      // Verify profile creation after successful signup
+      if (data.user) {
+        // Wait for the trigger to execute
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        try {
+          const profile = await getUserProfile(data.user.id);
+          
+          if (!profile) {
+            console.log('Profile not found, attempting manual creation...');
+            await createUserProfile(data.user);
+            console.log('Profile created manually as fallback');
+          }
+        } catch (profileError: any) {
+          console.error('Profile verification failed:', profileError);
+          try {
+            await createUserProfile(data.user);
+            console.log('Fallback profile creation successful');
+          } catch (fallbackError: any) {
+            logRegistrationError(fallbackError, email, 'fallback_creation');
+          }
+        }
+      }
 
       toast({
         title: "Account created successfully!",
         description: "Please check your email to verify your account.",
       });
     } catch (error: any) {
+      logRegistrationError(error, email);
       setError(error.message);
     } finally {
       setLoading(false);

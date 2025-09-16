@@ -1,16 +1,15 @@
 import { useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
-  BookOpen, 
+  Code,
   Trophy, 
   Target, 
   Clock, 
-  Code, 
   PlayCircle,
   Star,
   TrendingUp,
@@ -20,7 +19,6 @@ import {
   Users,
   BarChart3,
   Brain,
-  Map,
   Activity,
   CheckCircle,
   Flame,
@@ -38,33 +36,11 @@ import AchievementSystem from '@/components/AchievementSystem';
 import SocialFeatures from '@/components/SocialFeatures';
 import DetailedProgress from '@/components/DetailedProgress';
 import LearningPath from '@/components/LearningPath';
-import MathematicsDashboard from '@/components/MathematicsDashboard';
 
-const Dashboard = () => {
+const CodingDashboard = () => {
   const { user } = useAuth();
-  const location = useLocation();
   const [currentStreak, setCurrentStreak] = useState(7);
   const userName = user?.user_metadata?.full_name?.split(' ')[0] || 'Developer';
-  
-  // Get division from navigation state or default to 'coding-era'
-  const currentDivision = location.state?.division || 'coding-era';
-  
-  const divisionInfo = {
-    '6-12': {
-      name: '6-12 Academic Section',
-      description: 'Mastering Mathematics with gamified learning',
-      color: 'text-blue-400',
-      bgColor: 'bg-blue-500/10',
-      borderColor: 'border-blue-500/50'
-    },
-    'coding-era': {
-      name: 'Coding Era',
-      description: 'Advanced programming journey',
-      color: 'text-purple-400',
-      bgColor: 'bg-purple-500/10',
-      borderColor: 'border-purple-500/50'
-    }
-  };
 
   const learningStats = [
     {
@@ -159,65 +135,18 @@ const Dashboard = () => {
     { time: '4:00 PM', task: 'C Programming Quiz', type: 'quiz' }
   ];
 
-  // Show Mathematics Dashboard for 6-12 Academic Section
-  if (currentDivision === '6-12') {
-    return (
-      <div className="min-h-screen bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-          {/* Welcome Header with Division Info */}
-          <div className="mb-6 sm:mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <Badge 
-                variant="outline" 
-                className={`text-sm px-4 py-2 ${divisionInfo[currentDivision as keyof typeof divisionInfo]?.borderColor} ${divisionInfo[currentDivision as keyof typeof divisionInfo]?.color}`}
-              >
-                <BookOpen className="w-4 h-4 mr-2" />
-                {divisionInfo[currentDivision as keyof typeof divisionInfo]?.name}
-              </Badge>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
-                  Welcome back, <span className="text-golden">{userName}! 👋</span>
-                </h1>
-                <p className="text-muted-foreground">
-                  {divisionInfo[currentDivision as keyof typeof divisionInfo]?.description} - You're doing amazing! 
-                </p>
-              </div>
-              <div className="flex-shrink-0 flex items-center gap-2">
-                <Link to="/division-selection">
-                  <Button variant="outline" size="sm" className="flex items-center gap-2">
-                    <Settings className="w-4 h-4" />
-                    Switch Division
-                  </Button>
-                </Link>
-                <QuickSearch />
-              </div>
-            </div>
-          </div>
-
-          {/* Mathematics Dashboard */}
-          <MathematicsDashboard />
-        </div>
-      </div>
-    );
-  }
-
-  // Coding Era Dashboard
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        {/* Welcome Header with Division Info and Search */}
+        {/* Welcome Header with Coding Theme */}
         <div className="mb-6 sm:mb-8">
-          {/* Division Badge */}
           <div className="flex items-center justify-center mb-4">
             <Badge 
               variant="outline" 
-              className={`text-sm px-4 py-2 ${divisionInfo[currentDivision as keyof typeof divisionInfo]?.borderColor} ${divisionInfo[currentDivision as keyof typeof divisionInfo]?.color}`}
+              className="text-sm px-4 py-2 border-purple-500/50 text-purple-400"
             >
-              <BookOpen className="w-4 h-4 mr-2" />
-              {divisionInfo[currentDivision as keyof typeof divisionInfo]?.name}
+              <Code className="w-4 h-4 mr-2" />
+              Coding Era • Professional Development
             </Badge>
           </div>
           
@@ -227,7 +156,7 @@ const Dashboard = () => {
                 Welcome back, <span className="text-golden">{userName}! 👋</span>
               </h1>
               <p className="text-muted-foreground">
-                {divisionInfo[currentDivision as keyof typeof divisionInfo]?.description} - You're doing amazing! 
+                Ready to code something amazing today? You're doing great! 
               </p>
             </div>
             <div className="flex-shrink-0 flex items-center gap-2">
@@ -277,7 +206,7 @@ const Dashboard = () => {
               <span className="hidden sm:inline">Progress</span>
             </TabsTrigger>
             <TabsTrigger value="path" className="flex items-center gap-2">
-              <Map className="w-4 h-4" />
+              <Target className="w-4 h-4" />
               <span className="hidden sm:inline">Learning Path</span>
             </TabsTrigger>
             <TabsTrigger value="challenges" className="flex items-center gap-2">
@@ -313,7 +242,7 @@ const Dashboard = () => {
                         <CardTitle className="text-xl text-foreground">Continue Learning</CardTitle>
                         <CardDescription>Pick up where you left off</CardDescription>
                       </div>
-                      <Link to="/languages">
+                      <Link to="/coding/languages">
                         <Button variant="outline" size="sm" className="w-full sm:w-auto">
                           View All
                         </Button>
@@ -378,6 +307,27 @@ const Dashboard = () => {
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Recent Achievements */}
+                <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                  <CardHeader>
+                    <CardTitle className="text-lg text-foreground flex items-center gap-2">
+                      <Trophy className="w-5 h-5 text-golden" />
+                      Recent Achievements
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {recentAchievements.map((achievement, index) => (
+                      <div key={index} className="flex items-center gap-3 p-2 bg-accent/10 rounded-lg">
+                        <div className="text-xl">{achievement.icon}</div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-xs">{achievement.title}</h4>
+                          <p className="text-xs text-muted-foreground">{achievement.earned}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </TabsContent>
@@ -415,4 +365,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default CodingDashboard;

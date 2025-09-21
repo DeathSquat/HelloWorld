@@ -77,19 +77,19 @@ const Index = () => {
                 </>
               ) : (
                 <>
-                  <Link to="/auth">
+                  <Link to="/division-selection">
                     <Button size="lg" className="bg-golden hover:bg-golden/90 text-primary-foreground px-8 py-4 text-lg">
                       Start Learning
                       <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </Link>
                   
-                  <Link to="/auth">
+                  {/* <Link to="/auth">
                     <Button size="lg" variant="outline" className="border-golden text-golden hover:bg-golden/10 px-8 py-4 text-lg">
                       <LogIn className="w-4 h-4 mr-2" />
                       Sign In
                     </Button>
-                  </Link>
+                  </Link> */}
                 </>
               )}
             </div>

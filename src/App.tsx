@@ -19,6 +19,8 @@ import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import DivisionSelection from "./pages/DivisionSelection";
+import TeacherDashboard from "./pages/TeacherDashboard";
+import AcademicGames from "./sections/academic/pages/AcademicGames";
 
 // Academic Section Imports
 import AcademicDashboard from "./sections/academic/pages/AcademicDashboard";
@@ -97,12 +99,12 @@ const AppContent = () => {
         <Route path="/academic/games" element={
           <ProtectedRoute>
             <AcademicNavbar />
-            <div className="min-h-screen bg-background flex items-center justify-center">
-              <div className="text-center">
-                <h1 className="text-2xl font-bold text-foreground mb-4">Math Games Coming Soon!</h1>
-                <p className="text-muted-foreground">Interactive math games are being developed.</p>
-              </div>
-            </div>
+            <AcademicGames />
+          </ProtectedRoute>
+        } />
+        <Route path="/teacher/dashboard" element={
+          <ProtectedRoute>
+            <TeacherDashboard />
           </ProtectedRoute>
         } />
         <Route path="/academic/progress" element={

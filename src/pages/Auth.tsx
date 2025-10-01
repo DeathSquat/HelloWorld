@@ -6,15 +6,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { supabase } from '@/integrations/supabase/client';
 import { createUserProfile, getUserProfile, logRegistrationError } from '@/lib/userProfile';
-import { LogIn, UserPlus, Code, Sparkles } from 'lucide-react';
+import { LogIn, UserPlus, Code, Sparkles, GraduationCap, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [role, setRole] = useState<'learner' | 'teacher'>('learner');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -45,6 +47,7 @@ const Auth = () => {
           data: {
             full_name: fullName,
             username: email.split('@')[0],
+            role: role,
           }
         }
       });
@@ -234,6 +237,31 @@ const Auth = () => {
                       required
                       minLength={6}
                     />
+                  </div>
+                  <div className="space-y-3">
+                    <Label>I am a</Label>
+                    <RadioGroup value={role} onValueChange={(value: any) => setRole(value)}>
+                      <div className="flex items-center space-x-2 bg-card/30 p-3 rounded-lg border border-border/30 hover:border-golden/30 transition-colors">
+                        <RadioGroupItem value="learner" id="learner" />
+                        <Label htmlFor="learner" className="flex items-center gap-2 cursor-pointer flex-1">
+                          <GraduationCap className="w-4 h-4 text-golden" />
+                          <div>
+                            <div className="font-medium">Student</div>
+                            <div className="text-xs text-muted-foreground">Learn and track my progress</div>
+                          </div>
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2 bg-card/30 p-3 rounded-lg border border-border/30 hover:border-golden/30 transition-colors">
+                        <RadioGroupItem value="teacher" id="teacher" />
+                        <Label htmlFor="teacher" className="flex items-center gap-2 cursor-pointer flex-1">
+                          <Users className="w-4 h-4 text-golden" />
+                          <div>
+                            <div className="font-medium">Teacher</div>
+                            <div className="text-xs text-muted-foreground">Monitor student progress</div>
+                          </div>
+                        </Label>
+                      </div>
+                    </RadioGroup>
                   </div>
                   {error && (
                     <Alert variant="destructive">

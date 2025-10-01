@@ -1,11 +1,19 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import StarField from '@/components/StarField';
 import { Code, BookOpen, MapPin, Users, ArrowRight, LogIn } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useEffect } from 'react';
 
 const Index = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Clear guest session when on landing page
+    localStorage.removeItem('guestSessionStart');
+  }, []);
+
   return (
     <main className="relative min-h-screen overflow-hidden">
       {/* Animated Star Background */}
@@ -79,17 +87,17 @@ const Index = () => {
                 <>
                   <Link to="/division-selection">
                     <Button size="lg" className="bg-golden hover:bg-golden/90 text-primary-foreground px-8 py-4 text-lg">
-                      Start Learning
+                      Start Learning as Guest
                       <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </Link>
                   
-                  {/* <Link to="/auth">
+                  <Link to="/auth">
                     <Button size="lg" variant="outline" className="border-golden text-golden hover:bg-golden/10 px-8 py-4 text-lg">
                       <LogIn className="w-4 h-4 mr-2" />
-                      Sign In
+                      Sign In / Sign Up
                     </Button>
-                  </Link> */}
+                  </Link>
                 </>
               )}
             </div>

@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from '@/hooks/useAuth';
 import LoadingScreen from "./components/LoadingScreen";
+import { GuestLoginPrompt } from "./components/GuestLoginPrompt";
 import Navbar from "./components/Navbar";
 import AcademicNavbar from "./sections/academic/components/AcademicNavbar";
 import CodingNavbar from "./sections/coding/components/CodingNavbar";
@@ -37,15 +38,13 @@ const ProtectedRoute = ({ children, requireDivision = true }: { children: React.
     return <LoadingScreen onComplete={() => {}} />;
   }
   
-  // if (!user) {
-  //   return <Navigate to="/coding/dashboard"/>;
-  // }
-  
-  // If we require division selection and user hasn't selected one, redirect to division selection
-  // For now, we'll assume all authenticated users need to go through division selection
-  // You can add logic here to check if user has already selected a division
-  
-  return <>{children}</>;
+  // Allow guest access - they'll see the login prompt after some time
+  return (
+    <>
+      {!user && <GuestLoginPrompt delayMinutes={5} />}
+      {children}
+    </>
+  );
 };
 
 const AppContent = () => {

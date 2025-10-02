@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const DivisionSelection = () => {
   const [selectedDivision, setSelectedDivision] = useState<string | null>(null);
@@ -25,6 +26,25 @@ const DivisionSelection = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const userName = user?.user_metadata?.full_name?.split(' ')[0] || 'Developer';
+
+  useEffect(() => {
+    // Check if user is a teacher and redirect accordingly
+    const checkUserRole = async () => {
+      if (user) {
+        const { data: profile } = await supabase
+          .from('Hello-World Login')
+          .select('role')
+          .eq('user_id', user.id)
+          .single();
+
+        if (profile?.role === 'teacher') {
+          navigate('/teacher/dashboard');
+        }
+      }
+    };
+
+    checkUserRole();
+  }, [user, navigate]);
 
   const divisions = [
     {

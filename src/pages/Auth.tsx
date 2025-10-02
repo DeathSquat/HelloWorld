@@ -82,12 +82,22 @@ const Auth = () => {
             logRegistrationError(fallbackError, email, 'fallback_creation');
           }
         }
-      }
 
-      toast({
-        title: "Account created successfully!",
-        description: "Please check your email to verify your account.",
-      });
+        // Redirect based on role
+        if (role === 'teacher') {
+          toast({
+            title: "Teacher account created!",
+            description: "Redirecting to your dashboard...",
+          });
+          navigate('/teacher/dashboard');
+        } else {
+          toast({
+            title: "Account created successfully!",
+            description: "Please check your email to verify your account.",
+          });
+          navigate('/division-selection');
+        }
+      }
     } catch (error: any) {
       logRegistrationError(error, email);
       setError(error.message);
@@ -102,18 +112,35 @@ const Auth = () => {
     setError('');
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) throw error;
 
-      toast({
-        title: "Welcome back!",
-        description: "You have been logged in successfully.",
-      });
-      navigate('/division-selection');
+      // Check user role and redirect accordingly
+      if (data.user) {
+        const { data: profile } = await supabase
+          .from('Hello-World Login')
+          .select('role')
+          .eq('user_id', data.user.id)
+          .single();
+
+        if (profile?.role === 'teacher') {
+          toast({
+            title: "Welcome back, Teacher!",
+            description: "Redirecting to your dashboard...",
+          });
+          navigate('/teacher/dashboard');
+        } else {
+          toast({
+            title: "Welcome back!",
+            description: "You have been logged in successfully.",
+          });
+          navigate('/division-selection');
+        }
+      }
     } catch (error: any) {
       setError(error.message);
     } finally {

@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Users, TrendingUp, Award, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
+import TeacherNavbar from '@/components/TeacherNavbar';
 
 interface StudentProgress {
   id: string;
@@ -22,6 +24,7 @@ interface StudentProgress {
 const TeacherDashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [students, setStudents] = useState<StudentProgress[]>([]);
   const [loading, setLoading] = useState(true);
   const [isTeacher, setIsTeacher] = useState(false);
@@ -108,12 +111,14 @@ const TeacherDashboard = () => {
   const avgStreak = Math.round(students.reduce((sum, s) => sum + (s.learning_streak || 0), 0) / totalStudents);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8 pt-24">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Teacher Dashboard</h1>
-          <p className="text-muted-foreground">Monitor and track student progress across all courses</p>
-        </div>
+    <>
+      <TeacherNavbar />
+      <div className="min-h-screen bg-background pt-16">
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-foreground mb-2">Student Progress Overview</h1>
+            <p className="text-muted-foreground">Monitor and track student progress across all courses</p>
+          </div>
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -219,6 +224,7 @@ const TeacherDashboard = () => {
         </Card>
       </div>
     </div>
+    </>
   );
 };
 

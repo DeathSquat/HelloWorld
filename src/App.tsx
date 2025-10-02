@@ -1,3 +1,5 @@
+import '@n8n/chat/style.css';
+import { createChat } from '@n8n/chat';
 import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -52,6 +54,14 @@ const ProtectedRoute = ({ children, requireDivision = true }: { children: React.
 const AppContent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showMainApp, setShowMainApp] = useState(false);
+
+  // Add n8n chat initialization with custom styling
+  useEffect(() => {
+    createChat({
+      webhookUrl: 'http://localhost:5678/webhook/365d60cb-2dfb-4b40-9da2-20f84f923f89/chat'
+    });
+  }, []);
+
 
   const handleLoadingComplete = () => {
     setIsLoading(false);

@@ -31,13 +31,13 @@ const DivisionSelection = () => {
     // Check if user is a teacher and redirect accordingly
     const checkUserRole = async () => {
       if (user) {
-        const { data: profile } = await supabase
-          .from('Hello-World Login')
+        const { data: userRole } = await supabase
+          .from('user_roles')
           .select('role')
           .eq('user_id', user.id)
-          .single();
+          .maybeSingle();
 
-        if (profile?.role === 'teacher') {
+        if (userRole?.role === 'teacher') {
           navigate('/teacher/dashboard');
         }
       }

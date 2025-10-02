@@ -119,15 +119,15 @@ const Auth = () => {
 
       if (error) throw error;
 
-      // Check user role and redirect accordingly
+      // Check user role from secure roles table and redirect accordingly
       if (data.user) {
-        const { data: profile } = await supabase
-          .from('Hello-World Login')
+        const { data: userRole } = await supabase
+          .from('user_roles')
           .select('role')
           .eq('user_id', data.user.id)
-          .single();
+          .maybeSingle();
 
-        if (profile?.role === 'teacher') {
+        if (userRole?.role === 'teacher') {
           toast({
             title: "Welcome back, Teacher!",
             description: "Redirecting to your dashboard...",

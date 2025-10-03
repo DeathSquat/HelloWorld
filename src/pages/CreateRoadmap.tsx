@@ -932,16 +932,23 @@ const CreateRoadmap = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                     <div className="flex items-center gap-2">
                       {resource.completed ? (
                         <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">
                           <CheckCircle className="w-3 h-3 mr-1" />
                           Completed
                         </Badge>
+                      ) : resource.url ? (
+                        <a href={resource.url} target="_blank" rel="noopener noreferrer">
+                          <Button size="sm" variant="outline">
+                            <ExternalLink className="w-4 h-4 mr-2" />
+                            Start
+                          </Button>
+                        </a>
                       ) : (
                         <Button size="sm" variant="outline">
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          Start
+                          <PlayCircle className="w-4 h-4 mr-2" />
+                          Practice
                         </Button>
                       )}
                     </div>

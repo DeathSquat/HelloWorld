@@ -86,6 +86,24 @@ export type Database = {
         }
         Relationships: []
       }
+      hwchatbot: {
+        Row: {
+          id: number
+          message: Json
+          session_id: string
+        }
+        Insert: {
+          id?: number
+          message: Json
+          session_id: string
+        }
+        Update: {
+          id?: number
+          message?: Json
+          session_id?: string
+        }
+        Relationships: []
+      }
       "Room-Buddies Login": {
         Row: {
           email: string | null
@@ -107,6 +125,27 @@ export type Database = {
           id?: string
           role?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      teacher_students: {
+        Row: {
+          assigned_at: string | null
+          id: string
+          student_id: string
+          teacher_id: string
+        }
+        Insert: {
+          assigned_at?: string | null
+          id?: string
+          student_id: string
+          teacher_id: string
+        }
+        Update: {
+          assigned_at?: string | null
+          id?: string
+          student_id?: string
+          teacher_id?: string
         }
         Relationships: []
       }

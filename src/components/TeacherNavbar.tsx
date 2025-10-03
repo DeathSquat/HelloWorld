@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { GraduationCap, Users, LogOut, BarChart3 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const TeacherNavbar = () => {
   const location = useLocation();
@@ -36,6 +37,8 @@ const TeacherNavbar = () => {
 
           {/* Navigation */}
           <div className="flex items-center space-x-4">
+            <ThemeToggle />
+            
             <Link
               to="/teacher/dashboard"
               className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${

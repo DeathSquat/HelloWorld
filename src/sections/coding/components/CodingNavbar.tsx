@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const CodingNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -80,6 +81,8 @@ const CodingNavbar = () => {
 
           {/* User Menu */}
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
+            
             <div className="flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30">
               <Award className="w-4 h-4 text-purple-400" />
               <span className="text-sm font-medium text-purple-300">2,450 pts</span>
@@ -147,6 +150,10 @@ const CodingNavbar = () => {
               })}
               
               <div className="border-t border-purple-500/20 pt-3 mt-3">
+                <div className="flex items-center justify-center px-3 py-2 mb-2">
+                  <ThemeToggle />
+                </div>
+                
                 <div className="flex items-center justify-between px-3 py-2">
                   <div className="flex items-center space-x-2">
                     <User className="w-8 h-8 p-1 rounded-full bg-purple-500/20 text-purple-300" />

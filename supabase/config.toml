@@ -1,1 +1,6 @@
 project_id = "oxwgmgngnsjfmeuiaorn"
+[auth.external.google]
+enabled = true
+client_id = "1075552684001-3h73qpg890b9vv2jest26au5v4vm7vd6.apps.googleusercontent.com"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET)"
+skip_nonce_check = false

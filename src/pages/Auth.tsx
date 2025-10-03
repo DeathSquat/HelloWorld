@@ -11,6 +11,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { createUserProfile, getUserProfile, logRegistrationError } from '@/lib/userProfile';
 import { LogIn, UserPlus, Code, Sparkles, GraduationCap, Users, Github } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { signInWithOAuth } from '@/lib/utils';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -153,7 +154,7 @@ const Auth = () => {
     setError('');
 
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: `${window.location.origin}/division-selection`,

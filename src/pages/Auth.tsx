@@ -234,17 +234,17 @@ const Auth = () => {
                     {loading ? 'Signing in...' : 'Sign In'}
                   </Button>
 
-                  <div className="relative my-4">
+                  {/* <div className="relative my-4">
                     <div className="absolute inset-0 flex items-center">
                       <span className="w-full border-t border-border/50" />
                     </div>
                     <div className="relative flex justify-center text-xs uppercase">
                       <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="grid grid-cols-2 gap-3">
-                    <Button
+                    {/* <Button
                       type="button"
                       variant="outline"
                       onClick={() => handleOAuthSignIn('google')}
@@ -266,7 +266,7 @@ const Auth = () => {
                     >
                       <Github className="w-5 h-5 mr-2" />
                       GitHub
-                    </Button>
+                    </Button> */}
                   </div>
                 </form>
               </CardContent>
@@ -354,17 +354,17 @@ const Auth = () => {
                     {loading ? 'Creating account...' : 'Create Account'}
                   </Button>
 
-                  <div className="relative my-4">
+                  {/* <div className="relative my-4">
                     <div className="absolute inset-0 flex items-center">
                       <span className="w-full border-t border-border/50" />
                     </div>
                     <div className="relative flex justify-center text-xs uppercase">
                       <span className="bg-card px-2 text-muted-foreground">Or sign up with</span>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="grid grid-cols-2 gap-3">
-                    <Button
+                    {/* <Button
                       type="button"
                       variant="outline"
                       onClick={() => handleOAuthSignIn('google')}
@@ -377,8 +377,8 @@ const Auth = () => {
                         <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                       </svg>
                       Google
-                    </Button>
-                    <Button
+                    </Button> */}
+                    {/* <Button
                       type="button"
                       variant="outline"
                       onClick={() => handleOAuthSignIn('github')}
@@ -386,7 +386,7 @@ const Auth = () => {
                     >
                       <Github className="w-5 h-5 mr-2" />
                       GitHub
-                    </Button>
+                    </Button> */}
                   </div>
                 </form>
               </CardContent>

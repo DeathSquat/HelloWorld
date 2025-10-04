@@ -1,5 +1,5 @@
 import React from "react";
-import { supabase } from "src/utils/supabaseClient";
+import { supabase } from "@/integrations/supabase/client";
 import { signInWithOAuth } from "@/lib/utils";
 
 

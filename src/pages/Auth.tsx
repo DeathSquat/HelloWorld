@@ -154,15 +154,20 @@ const Auth = () => {
     setError('');
 
     try {
+      // Use current origin to ensure it redirects back to this website
+      const redirectUrl = `${window.location.origin}/division-selection`;
+      console.log('OAuth redirect URL:', redirectUrl);
+      
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/division-selection`,
+          redirectTo: redirectUrl,
         },
       });
 
       if (error) throw error;
     } catch (error: any) {
+      console.error('OAuth error:', error);
       setError(error.message);
       setLoading(false);
     }

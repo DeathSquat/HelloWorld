@@ -22,6 +22,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
+import { ProjectDetailDialog } from '@/components/ProjectDetailDialog';
 
 const CreateRoadmap = () => {
   const [searchParams] = useSearchParams();
@@ -40,6 +41,8 @@ const CreateRoadmap = () => {
   
   const [generatedRoadmap, setGeneratedRoadmap] = useState<any>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [projectDialogOpen, setProjectDialogOpen] = useState(false);
 
   const skills = [
     'Frontend Development', 'Python', 'JavaScript', 'Java', 'C++', 'C Programming', 'React', 
@@ -909,7 +912,16 @@ const CreateRoadmap = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 {phase.resources.map((resource: any, resourceIndex: number) => (
-                  <div key={resourceIndex} className="flex items-center justify-between p-4 rounded-lg bg-accent/5 border border-accent/10 hover:border-accent/20 transition-colors">
+                  <div 
+                    key={resourceIndex} 
+                    className="flex items-center justify-between p-4 rounded-lg bg-accent/5 border border-accent/10 hover:border-accent/20 transition-colors cursor-pointer"
+                    onClick={() => {
+                      if (resource.type === 'project' || resource.type === 'practice') {
+                        setSelectedProject(resource);
+                        setProjectDialogOpen(true);
+                      }
+                    }}
+                  >
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-2">
                         {getResourceIcon(resource.type)}
@@ -938,8 +950,13 @@ const CreateRoadmap = () => {
                           <CheckCircle className="w-3 h-3 mr-1" />
                           Completed
                         </Badge>
+                      ) : (resource.type === 'project' || resource.type === 'practice') ? (
+                        <Button size="sm" variant="outline">
+                          <PlayCircle className="w-4 h-4 mr-2" />
+                          Start
+                        </Button>
                       ) : resource.url ? (
-                        <a href={resource.url} target="_blank" rel="noopener noreferrer">
+                        <a href={resource.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                           <Button size="sm" variant="outline">
                             <ExternalLink className="w-4 h-4 mr-2" />
                             Start
@@ -951,13 +968,20 @@ const CreateRoadmap = () => {
                           Practice
                         </Button>
                       )}
-                    </div>
+                     </div>
                   </div>
                 ))}
               </CardContent>
             </Card>
           ))}
         </div>
+
+        {/* Project Detail Dialog */}
+        <ProjectDetailDialog
+          open={projectDialogOpen}
+          onOpenChange={setProjectDialogOpen}
+          resource={selectedProject}
+        />
       </div>
     </div>
   );

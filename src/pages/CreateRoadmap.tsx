@@ -880,6 +880,12 @@ const CreateRoadmap = () => {
 
         {/* Action Buttons */}
         <div className="flex gap-4 mb-8">
+          <Button 
+            variant="outline"
+            onClick={() => setStep(1)}
+          >
+            ← Back to Selection
+          </Button>
           <Button className="bg-golden hover:bg-golden/90 text-primary-foreground">
             <PlayCircle className="w-4 h-4 mr-2" />
             Start Learning

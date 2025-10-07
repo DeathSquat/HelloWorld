@@ -17,6 +17,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Languages from "./pages/Languages";
 import CreateRoadmap from "./pages/CreateRoadmap";
+import CodeIDE from "./pages/CodeIDE";
 import Pricing from "./pages/Pricing";
 import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
@@ -206,6 +207,11 @@ const AppContent = () => {
           <ProtectedRoute>
             <Navbar />
             <CreateRoadmap />
+          </ProtectedRoute>
+        } />
+        <Route path="/ide" element={
+          <ProtectedRoute>
+            <CodeIDE />
           </ProtectedRoute>
         } />
         <Route path="/pricing" element={

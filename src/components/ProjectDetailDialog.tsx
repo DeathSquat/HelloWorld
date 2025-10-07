@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Dialog,
   DialogContent,
@@ -39,6 +40,7 @@ interface ProjectDetailDialogProps {
 }
 
 export const ProjectDetailDialog = ({ open, onOpenChange, resource }: ProjectDetailDialogProps) => {
+  const navigate = useNavigate();
   const [notes, setNotes] = useState('');
   const [projectProgress, setProjectProgress] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
@@ -74,6 +76,13 @@ export const ProjectDetailDialog = ({ open, onOpenChange, resource }: ProjectDet
       setCompletedSteps([...completedSteps, stepIndex]);
       setProjectProgress(Math.min(100, projectProgress + (100 / projectSteps.length)));
     }
+  };
+
+  const handleStartProject = () => {
+    const projectType = isProject ? 'project' : 'practice';
+    const encodedTitle = encodeURIComponent(resource.title);
+    navigate(`/ide?project=${encodedTitle}&type=${projectType}`);
+    onOpenChange(false);
   };
 
   return (
@@ -196,7 +205,10 @@ export const ProjectDetailDialog = ({ open, onOpenChange, resource }: ProjectDet
 
           {/* Action Buttons */}
           <div className="flex gap-3">
-            <Button className="flex-1 bg-golden hover:bg-golden/90">
+            <Button 
+              className="flex-1 bg-golden hover:bg-golden/90"
+              onClick={handleStartProject}
+            >
               <Code className="w-4 h-4 mr-2" />
               Start {isProject ? 'Project' : 'Practice'}
             </Button>
